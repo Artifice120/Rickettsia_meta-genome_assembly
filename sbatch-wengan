@@ -1,0 +1,30 @@
+#!/bin/bash
+#SBATCH -J Wengan
+#SBATCH --account ACF-UTK0011
+#SBATCH --mem=1000gb
+#SBATCH --nodes=1
+#SBATCH --ntasks=48
+#SBATCH --time=24:00:00
+#SBATCH --partition=campus-bigmem
+
+#SBATCH --error=error/wengan.e%j
+#SBATCH --output=log/wengan.o%j
+#SBATCH --qos=campus-bigmem
+#SBATCH --exclusive
+
+rm -rf /lustre/isaac/scratch/jtorre28/wengan/spades_rick_nano
+
+mkdir /lustre/isaac/scratch/jtorre28/wengan/spades_rick_nano
+
+cd /lustre/isaac/scratch/jtorre28/wengan/spades_rick_nano
+
+
+# This attempt was unique since -i (insert sizes) were more varied to allow for less long read coverage.
+# Additionally, -g (genome length in Mb) was set to 300mb and -N (Min Number of Long reads needed to keep a hybrid contig) was reduced from the default 5 to 1 since the short reads are more complete in this case.
+# Long reads were also enriched with PANDAseq short read alignments that generated sythetic "Long reads", only kept alignent sequences that were < 300 bps.
+# -c option was also used to skip the short read assembly step; exept, the spades short-read assembly is supplied instead of the built in Discovar assembler to increase quality.
+
+singularity exec /lustre/isaac/scratch/jtorre28/wengan/image/wengan_v0.2.sif perl /wengan/wengan-v0.2-bin-Linux/wengan.pl \
+ -x ontraw -a D -s /lustre/isaac/scratch/jtorre28/illum-kt/LSR_510/LSR_510_CKDN240013561-1A_22FT2MLT4_L2_1.fq.gz,/lustre/isaac/scratch/jtorre28/illum-kt/LSR_510/LSR_510_CKDN240013561-1A_22FT2MLT4_L2_2.fq.gz \
+ -l /lustre/isaac/scratch/jtorre28/novogene/usftp21.novogene.com/Data-X202SC24114598-Z01-F001/Hemo_E2/1450_4H_PAY32581_ea8273a0/Hemo_E2_fastq_pass/nano-hemolymp.fa.gz -c /lustre/isaac/scratch/jtorre28/spades/test_out/contamination_screening/contigs.fa \
+ -p spades_rick_nano -t 45 -g 300 -N 1 -P 8000 -i 500,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000,20000
