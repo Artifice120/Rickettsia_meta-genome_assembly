@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH -J spades
+#SBATCH --account ACF-UTK0011
+#SBATCH --mem=150gb
+#SBATCH --nodes=1
+#SBATCH --ntasks=48
+#SBATCH --time=03:00:00
+#SBATCH --partition=short
+
+#SBATCH --error=error/spades.e%j
+#SBATCH --output=log/spades.o%j
+#SBATCH --qos=short
+#SBATCH --exclusive
+
+cd /lustre/isaac/scratch/jtorre28/spades/SPAdes-4.0.0-Linux/bin
+
+eval "$(micromamba shell hook --shell )"
+
+micromamba activate python3.8
+
+./spades.py -o ../../test_out -m 150 -t 48 -1 ../../../illum-kt/LSR_510/LSR_510_1.no-aphid.fq -2 ../../../illum-kt/LSR_510/LSR_510_2.no-aphid.fq
