@@ -1,0 +1,25 @@
+#!/bin/bash
+#SBATCH -J P-GAP
+#SBATCH --account ACF-UTK0011
+#SBATCH --mem=100gb
+#SBATCH --nodes=1
+#SBATCH --ntasks=48
+#SBATCH --time=03:00:00
+#SBATCH --partition=short
+
+#SBATCH --error=error/pgap.e%j
+#SBATCH --output=log/pgap.o%j
+#SBATCH --qos=short
+#SBATCH --exclusive
+
+cd /lustre/isaac/scratch/jtorre28/pgap
+
+source /lustre/isaac/scratch/jtorre28/enviro/mamba/micro/etc/profile.d/micromamba.sh
+
+micromamba activate /lustre/isaac/scratch/jtorre28/enviro/mamba/micro/envs/python3.8
+
+export PGAP_INPUT_DIR=/lustre/isaac/scratch/jtorre28/pgap
+
+echo "$PGAP_INPUT_DIR"
+
+./pgap.py -r -o rick_patched -g /lustre/isaac/scratch/jtorre28/wengan/spades_rick_nano/wengan-spades-catted.fa -s 'Rickettsia bellii' --debug --ignore-all-errors
