@@ -1,12 +1,12 @@
 # Rickettsia_meta-genome_assembly
 
-Short reads were initially assembled with spades to supplements the hybrid assembler wengan as draft assembly was more complete that the default Discovar denovo assembler that wengan uses as the default.
+Short reads were initially assembled with spades to supplement the hybrid assembler Wengan as the short read draft assembly was more complete that the default Discovar denovo assembler that Wengan uses as the default for the initial assembly of unitigs.
 
-After assemblying the short reads in spades the contigs were assigned taxonomy and filtered with BLAST+ and Blobtools.
+After assemblying the short reads in spades the unitigs were assigned taxonomy and filtered with BLAST+ and Blobtools.
 
-This filtered short read assembly was then entered into the Wengan hybrid assembly pipeline. Since the short reads were already filtered by taxonomy there was no nead to filter the long reads as only long reads that had suppport from short-read contigs are only kept by default.
+This filtered short read assembly was then entered into the Wengan hybrid assembly pipeline. Since the short reads were already filtered by taxonomy there was no nead to filter the long reads as only long reads that had suppport from short-read unitigs are kept by default.
 
-This assembly was then annotated with prokka and p-gap ( rickettisa bellii model )
+After ensuring the BUSCO completness remained the same, the assembly was then annotated with prokka and p-gap ( rickettisa bellii model )
 
 All rickettisa refrence genomes were then downloaded and annotated with prokka for consistency in gene predictions
 
